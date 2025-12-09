@@ -1,0 +1,33 @@
+services:
+  cache:
+    image: redis:latest
+    restart: unless-stopped
+    container_name: "${CACHE_NAME}"
+    networks:
+      - monolith
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: "."
+    container_name: "${SERVER_CONTAINER_NAME}"
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
+    volumes:
+      - "./server/src:/monolith/src"
+      - "./server/test:/monolith/test"
+      - "./server/server.py:/monolith/server.py"
+    environment:
+      ENV: "dev"
+      HOST_IP: "${WEB_REALHOST}"
+      HOST_PORT: "${SERVER_PORT}"
+    networks:
+      - monolith
+
+networks:
+  monolith:
+    driver: bridge
