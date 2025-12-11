@@ -13,3 +13,11 @@ dependencies = [
 dev = [
     "ruff>=0.14.8",
 ]
+
+[tool.ruff]
+lint.extend-select = [
+    'FAST001',
+    'FAST002',
+    'FAST003'
+]
+

@@ -1,19 +1,21 @@
 import os
-from pathlib import Path
 from functools import lru_cache
-from typing import Optional, Dict
+from pathlib import Path
+from typing import Dict, Optional
 
 from pydantic import BaseModel, Field, SecretStr, ValidationError
 
-
 # --- Helper para secretos ---
-BASE_SECRET_PATH = '/run/secrets'
+BASE_SECRET_PATH = "/run/secrets"
+
 
 # --- Configuración tipada ---
 class AppSettings(BaseModel):
     # Variables de control
     ENV: str = Field("dev", description="Modo de ejecución: dev o prod")
-    SECRET_PREFIX: str = Field("", description="Prefijo opcional para secretos de Docker")
+    SECRET_PREFIX: str = Field(
+        "", description="Prefijo opcional para secretos de Docker"
+    )
 
     # Variables tipadas del servicio
     DB_NAME: str | SecretStr
@@ -56,7 +58,9 @@ def set_env_vars(values: dict):
 
 
 def set_dotenv_config(values: dict, env_mode: str = "dev"):
-    env_path = Path(f".env.{env_mode}") if Path(f".env.{env_mode}").exists() else Path(".env")
+    env_path = (
+        Path(f".env.{env_mode}") if Path(f".env.{env_mode}").exists() else Path(".env")
+    )
     if env_path.exists():
         for line in env_path.read_text().splitlines():
             if "=" in line and not line.strip().startswith("#"):
@@ -69,14 +73,15 @@ def set_dotenv_config(values: dict, env_mode: str = "dev"):
 # --- Pipeline definido ---
 PIPELINES = {
     "dev": ("env_file", "env_vars", "secrets"),
-    "default": ("secrets", "env_vars", "env_file")
+    "default": ("secrets", "env_vars", "env_file"),
 }
 
 FUNCTIONS = {
     "secrets": set_secret_config,
     "env_vars": set_env_vars,
-    "env_file": set_dotenv_config
+    "env_file": set_dotenv_config,
 }
+
 
 # --- Loader ---
 def load_settings() -> Dict[str, str]:

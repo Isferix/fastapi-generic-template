@@ -1,5 +1,23 @@
 services:
-  cache:
+  server:
+    build:
+      context: "./server"
+      dockerfile: "Dockerfile"
+    container_name: "${SERVER_CONTAINER_NAME}"
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
+    volumes:
+      - "./server/src:/code/src"
+      - "./server/test:/code/test"
+      - "./server/main.py:/code/main.py"
+    environment:
+      ENV: "dev"
+      HOST_PORT: "${SERVER_PORT}"
+    networks:
+      - monolith
+
+  redis:
     image: redis:latest
     restart: unless-stopped
     container_name: "${CACHE_NAME}"
@@ -7,26 +25,6 @@ services:
       - monolith
     depends_on:
       - server
-
-  server:
-    build:
-      context: "."
-    container_name: "${SERVER_CONTAINER_NAME}"
-    restart: unless-stopped
-    depends_on:
-      - db
-    ports:
-      - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
-    volumes:
-      - "./server/src:/monolith/src"
-      - "./server/test:/monolith/test"
-      - "./server/server.py:/monolith/server.py"
-    environment:
-      ENV: "dev"
-      HOST_IP: "${WEB_REALHOST}"
-      HOST_PORT: "${SERVER_PORT}"
-    networks:
-      - monolith
 
 networks:
   monolith:
