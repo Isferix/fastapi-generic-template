@@ -24,15 +24,15 @@ EXPOSE 8000
 
 # ---------- STAGE: dev-deploy ----------
 FROM base AS dev-deploy
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--reload"] 
+CMD ["uv", "run", "uvicorn", "main:server", "--host", "0.0.0.0", "--reload"] 
 
 # ---------- STAGE: test-deploy ----------
 FROM base AS test-deploy
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--reload"] 
+CMD ["uv", "run", "uvicorn", "main:server", "--host", "0.0.0.0", "--reload"] 
 
 # ---------- STAGE: prod-deploy ----------
 FROM base AS prod-deploy
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--workers", "7", "--forwarded-allow-ips", "*"]
+CMD ["uv", "run", "uvicorn", "main:server", "--host", "0.0.0.0", "--workers", "7", "--forwarded-allow-ips", "*"]
 
 # ---------- STAGE: final ----------
 FROM ${env}-deploy AS final-deploy

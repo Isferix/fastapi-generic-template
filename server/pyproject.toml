@@ -11,6 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pytest>=9.0.2",
     "ruff>=0.14.8",
 ]
 
@@ -19,5 +20,12 @@ lint.extend-select = [
     'FAST001',
     'FAST002',
     'FAST003'
+]
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["-ra", "-q"]
+testpaths = [
+    "tests"
 ]
 
