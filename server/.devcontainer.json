@@ -3,7 +3,7 @@
     "dockerComposeFile": ["../docker-compose.yml"],
     "service": "server",
     "shutdownAction": "none",
-    "workspaceFolder": "/code",
+    "workspaceFolder": "/server",
     "customizations": {
         "vscode": {
             "extensions": [

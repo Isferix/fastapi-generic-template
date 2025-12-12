@@ -8,12 +8,10 @@ services:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
     volumes:
-      - "./server/src:/code/src"
-      - "./server/test:/code/test"
-      - "./server/main.py:/code/main.py"
+      - "./server/src:/server/src"
+      - "./server/tests:/server/tests"
     environment:
       ENV: "dev"
-      HOST_PORT: "${SERVER_PORT}"
     networks:
       - monolith
 

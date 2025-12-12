@@ -14,7 +14,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Copy the application into the container
 
-WORKDIR /code
+WORKDIR /server
 COPY . .
 
 # Usa una carpeta de venv específica
@@ -24,15 +24,15 @@ EXPOSE 8000
 
 # ---------- STAGE: dev-deploy ----------
 FROM base AS dev-deploy
-CMD ["uv", "run", "uvicorn", "main:server", "--host", "0.0.0.0", "--reload"] 
+CMD ["uv", "run", "uvicorn", "src.main:server", "--host", "0.0.0.0", "--reload"] 
 
 # ---------- STAGE: test-deploy ----------
 FROM base AS test-deploy
-CMD ["uv", "run", "uvicorn", "main:server", "--host", "0.0.0.0", "--reload"] 
+CMD ["uv", "run", "uvicorn", "src.main:server", "--host", "0.0.0.0", "--reload"] 
 
 # ---------- STAGE: prod-deploy ----------
 FROM base AS prod-deploy
-CMD ["uv", "run", "uvicorn", "main:server", "--host", "0.0.0.0", "--workers", "7", "--forwarded-allow-ips", "*"]
+CMD ["uv", "run", "uvicorn", "src.main:server", "--host", "0.0.0.0", "--workers", "7", "--forwarded-allow-ips", "*"]
 
 # ---------- STAGE: final ----------
 FROM ${env}-deploy AS final-deploy

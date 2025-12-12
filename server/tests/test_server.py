@@ -2,11 +2,11 @@ import contextlib
 import threading
 import time
 
-import pytest
+# import pytest
 import uvicorn
 from fastapi.testclient import TestClient
 
-from server.main import server
+from ..src.main import server
 
 
 class Server(uvicorn.Server):
@@ -35,11 +35,11 @@ def test_health():
     assert response.json() == {"status": "ok"}
 
 
-@pytest.fixture(scope="session")
-def test_live_server():
-    config = uvicorn.Config(
-        "main:server", host="127.0.0.1", port=5000, log_level="info"
-    )
-    live_server = Server(config=config)
-    with live_server.run_in_thread():
-        yield
+# @pytest.fixture(scope="session")
+# def test_live_server():
+#     config = uvicorn.Config(
+#         "main:server", host="127.0.0.1", port=5000, log_level="info"
+#     )
+#     live_server = Server(config=config)
+#     with live_server.run_in_thread():
+#         yield
