@@ -5,7 +5,6 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-
 permissions:
   contents: write
   packages: write
@@ -16,7 +15,8 @@ jobs:
   # ------------------------------
   quality:
     runs-on: ubuntu-latest
-
+    env:
+      UV_PROJECT: server/pyproject.toml
     steps:
       # checkout
       - uses: actions/checkout@v5
@@ -34,7 +34,7 @@ jobs:
 
       # instala dependencias del proyecto
       - name: Install dependencies
-        run: uv sync --locked --all-extras --dev --project server/pyproject.toml
+        run: uv sync --locked --all-extras --dev
 
       # Ruff (lint + formateo)
       - name: Ruff lint
