@@ -34,7 +34,7 @@ jobs:
 
       # instala dependencias del proyecto
       - name: Install dependencies
-        run: uv sync --locked --all-extras --dev --config-file server/pyproject.toml
+        run: uv sync --locked --all-extras --dev
 
       # Ruff (lint + formateo)
       - name: Ruff lint
