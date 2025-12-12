@@ -1,0 +1,95 @@
+name: CI/CD - FastAPI
+
+on:
+  push:
+    branches: ["main"]
+  merge:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # ------------------------------
+  # 1) LINT + TEST + SECURITY
+  # ------------------------------
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout
+      - uses: actions/checkout@v5
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: "server/.python-version"
+
+      # instala UV
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      # instala dependencias del proyecto
+      - name: Install dependencies
+        run: uv sync --locked --all-extras --dev --config-file server/pyproject.toml
+
+      # Ruff (lint + formateo)
+      - name: Ruff lint
+        run: uv run ruff check .
+
+      # Tests
+      - name: Run tests
+        run: uv run pytest
+
+  # ------------------------------
+  # 2) BUILD DOCKER + TRIVY
+  # ------------------------------
+    # docker:
+    #   needs: quality
+    #   runs-on: ubuntu-latest
+
+    #   steps:
+    #     - uses: actions/checkout@v4
+
+    #     # Login to Docker Hub
+    #     - name: Login to Docker Hub
+    #       uses: docker/login-action@v3
+    #       with:
+    #         username: ${{ secrets.DOCKERHUB_USER }}
+    #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    #     # Cache de capas Docker
+    #     - name: Docker build + cache
+    #       uses: docker/build-push-action@v5
+    #       with:
+    #         context: .
+    #         file: ./Dockerfile
+    #         tags: ${{ env.DOCKERHUB_REPO }}:latest
+    #         load: true
+    #         cache-from: type=gha
+    #         cache-to: type=gha,mode=max
+
+    #     # Trivy - análisis de la imagen
+    #     - name: Scan Docker image with Trivy
+    #       uses: aquasecurity/trivy-action@master
+    #       with:
+    #         image-ref: ${{ env.DOCKERHUB_REPO }}:latest
+    #         format: table
+    #         exit-code: 1
+    #         ignore-unfixed: true
+
+    #     # Push final
+    #     - name: Push image to Docker Hub
+    #       uses: docker/build-push-action@v5
+    #       with:
+    #         context: .
+    #         file: ./Dockerfile
+    #         push: true
+    #         tags: |
+    #           ${{ env.DOCKERHUB_REPO }}:latest
+    #           ${{ env.DOCKERHUB_REPO }}:${{ github.sha }}
+    #         cache-from: type=gha
+    #         cache-to: type=gha,mode=max
