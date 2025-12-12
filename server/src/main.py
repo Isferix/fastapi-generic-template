@@ -2,9 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .ports.api import api
-from .settings import get_settings
 
-settings = get_settings()
+# from .settings import get_settings
+
+# settings = get_settings()
 
 server = FastAPI()
 
