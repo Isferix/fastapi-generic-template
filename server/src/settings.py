@@ -8,10 +8,6 @@ from pydantic_settings import (
 )
 
 
-class AppSettings(BaseModel):
-    key: SecretStr = Field()
-
-
 class DbSettings(BaseModel):
     adapter: str
     db_uri: SecretStr
