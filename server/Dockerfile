@@ -1,7 +1,7 @@
 # Define build-time argument
 ARG env=dev
 
-FROM python:3.12-slim AS base
+FROM python:3.12.12-alpine3.23 AS base
 
 ARG env
 ENV ENV_MODE=$env
@@ -32,7 +32,7 @@ CMD ["uv", "run", "uvicorn", "src.main:server", "--host", "0.0.0.0", "--reload"]
 
 # ---------- STAGE: prod-deploy ----------
 FROM base AS prod-deploy
-CMD ["uv", "run", "uvicorn", "src.main:server", "--host", "0.0.0.0", "--workers", "7", "--forwarded-allow-ips", "*"]
+CMD ["uv", "run", "uvicorn", "src.main:server", "--host", "0.0.0.0", "--forwarded-allow-ips", "*"]
 
 # ---------- STAGE: final ----------
 FROM ${env}-deploy AS final-deploy
