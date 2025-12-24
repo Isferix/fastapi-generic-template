@@ -3,6 +3,7 @@ __pycache__/
 *.pyo
 *.pyd
 
+.env
 .venv/
 venv/
 env/
@@ -10,14 +11,23 @@ env/
 .cache/
 .mypy_cache/
 .pytest_cache/
-ruff_cache/
+.ruff_cache/
 .uv/
 
+.dockerignore
+.devcontainer.json
 .git/
+.github/
 .gitignore
 .gitattributes
 
 .DS_Store
 *.log
+.vscode/
 
-tests/
+Makefile
+README.md
+docker-compose.yml
+config.ini
+server/tests/
+scripts/

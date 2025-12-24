@@ -1,6 +1,6 @@
 all: compile setup
 
 compile:
-		python3 "compile.py"
+		python3 "scripts/compile.py"
 setup:
-		python3 "setup.py"
+		python3 "scripts/setup.py"

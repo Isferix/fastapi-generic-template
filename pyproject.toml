@@ -26,6 +26,5 @@ lint.extend-select = [
 minversion = "9.0"
 addopts = ["-ra", "-q"]
 testpaths = [
-    "tests"
+    "server/tests"
 ]
-

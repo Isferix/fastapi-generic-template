@@ -5,8 +5,7 @@ import time
 # import pytest
 import uvicorn
 from fastapi.testclient import TestClient
-
-from ..src.main import server
+from ..main import server
 
 
 class Server(uvicorn.Server):

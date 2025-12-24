@@ -1,11 +1,12 @@
 {
     "name": "FastAPI Dev",
-    "dockerComposeFile": ["../docker-compose.yml"],
+    "dockerComposeFile": ["docker-compose.yml"],
     "service": "server",
     "shutdownAction": "none",
-    "workspaceFolder": "/server",
+    "workspaceFolder": "/code",
     "customizations": {
         "vscode": {
+            "workspaceMount": "source=${localWorkspaceFolder},target=/code,type=bind,consistency=cached",
             "extensions": [
                 "ms-python.python",
                 "ms-python.debugpy",
@@ -23,5 +24,11 @@
                 }
             }
         }
+    },
+
+    "features": { 
+        "ghcr.io/devcontainers/features/github-cli": {},
+        "ghcr.io/devcontainers/features/git": {} 
     }
 }
+

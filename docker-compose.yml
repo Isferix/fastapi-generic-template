@@ -1,15 +1,14 @@
 services:
   server:
     build:
-      context: "./server"
-      dockerfile: "Dockerfile"
+      context: .
+      dockerfile: Dockerfile
     container_name: "${SERVER_CONTAINER_NAME}"
     restart: unless-stopped
     ports:
       - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
     volumes:
-      - "./server/src:/server/src"
-      - "./server/tests:/server/tests"
+      - "./app:/code/app"
     environment:
       ENV: "dev"
     networks:

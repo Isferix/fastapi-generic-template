@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .ports.api import api
+from .src.api import api
 
 # from .settings import get_settings
 
