@@ -12,17 +12,7 @@ services:
     environment:
       ENV: "dev"
     networks:
-      - monolith
-
-  redis:
-    image: redis:latest
-    restart: unless-stopped
-    container_name: "${CACHE_NAME}"
-    networks:
-      - monolith
-    depends_on:
-      - server
-
+      - backend
 networks:
   monolith:
     driver: bridge
