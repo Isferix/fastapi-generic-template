@@ -9,6 +9,8 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
     volumes:
       - "./app:/code/app"
+      - "./alembic:/code/alembic"
+      - "./code/app/src/domain:/code/domain"
     environment:
       ENV: "dev"
     networks:
