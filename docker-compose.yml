@@ -3,18 +3,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: "${SERVER_CONTAINER_NAME}"
+    container_name: "${APP_CONTAINER_NAME}"
     restart: unless-stopped
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT_INTERNAL}"
+      - "${APP_PORT}:${APP_PORT_INTERNAL}"
     volumes:
       - "./app:/code/app"
-      - "./alembic:/code/alembic"
-      - "./code/app/src/domain:/code/domain"
+      - "./db:/code/db"
+      - "./app/src/domain:/code/domain"
     environment:
       ENV: "dev"
     networks:
       - backend
 networks:
-  monolith:
+  backend:
     driver: bridge

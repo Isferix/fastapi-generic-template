@@ -25,7 +25,6 @@ env/
 *.log
 .vscode/
 
-alembic/
 Makefile
 README.md
 LICENSE
@@ -33,3 +32,4 @@ docker-compose.yml
 config.ini
 server/tests/
 scripts/
+alembic/
